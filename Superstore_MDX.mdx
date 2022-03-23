@@ -1,0 +1,27 @@
+//1. Total Sales of Category
+SELECT [Measures].[Sales] ON COLUMNS,
+NONEMPTY([Dim Product].[Category].[Category]) ON ROWS
+FROM [DB Superstore]
+
+//2. Total Sales by Region
+SELECT [Measures].[Sales] ON COLUMNS,
+NONEMPTY([Dim Region].[Region].[Region]) ON ROWS
+FROM [DB Superstore]
+
+//3. Sum Profit, sales by Category and Sub-Category
+SELECT {[Measures].[Profit],[Sales]} ON COLUMNS,
+non empty [Dim Product].[Category].[Category] * [Dim Product].[Sub- Category].members   ON ROWS
+FROM [DB Superstore] 
+
+//4. Sum Profit, sales by Category and Sub-Category: Technology and Sort by profit
+SELECT {[Measures].[Profit],[Sales]} ON COLUMNS,
+non empty order ([Dim Product].[Sub- Category].members,  [Measures].[Profit], DESC) ON ROWS
+FROM [DB Superstore] 
+where [Dim Product].[Category].&[Technology]
+
+//5. Sum Profit by Category order year 2017
+SELECT [Measures].[Profit] ON COLUMNS,
+non empty [Dim Customer].[Segment].members * [Dim Product].[Category].[Category] ON ROWS
+FROM [DB Superstore] 
+where [Dim Time].[Year].&[2017]
+
